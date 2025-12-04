@@ -56,7 +56,7 @@
             padding: 20px;
         }
         
-        .logo-container img {
+        .logo-container svg {
             max-width: 500px;
             width: 100%;
             height: auto;
@@ -538,42 +538,64 @@
         </div>
         
         <div class="logo-container">
-            <svg width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg">
-                <!-- Flor de cerezo - 5 pétalos -->
-                <g transform="translate(50, 100)">
-                    <!-- Pétalo 1 - Arriba -->
-                    <ellipse cx="0" cy="-50" rx="28" ry="50" fill="#FFB6D9"/>
-                    <circle cx="0" cy="-50" r="10" fill="white" opacity="0.6"/>
-                    
-                    <!-- Pétalo 2 - Derecha arriba -->
-                    <ellipse cx="47" cy="-15" rx="28" ry="50" transform="rotate(72 47 -15)" fill="#FFB6D9"/>
-                    <circle cx="47" cy="-15" r="10" fill="white" opacity="0.6"/>
-                    
-                    <!-- Pétalo 3 - Derecha abajo -->
-                    <ellipse cx="29" cy="41" rx="28" ry="50" transform="rotate(144 29 41)" fill="#FFB6D9"/>
-                    <circle cx="29" cy="41" r="10" fill="white" opacity="0.6"/>
-                    
-                    <!-- Pétalo 4 - Izquierda abajo -->
-                    <ellipse cx="-29" cy="41" rx="28" ry="50" transform="rotate(-144 -29 41)" fill="#FFB6D9"/>
-                    <circle cx="-29" cy="41" r="10" fill="white" opacity="0.6"/>
-                    
-                    <!-- Pétalo 5 - Izquierda arriba -->
-                    <ellipse cx="-47" cy="-15" rx="28" ry="50" transform="rotate(-72 -47 -15)" fill="#FFB6D9"/>
-                    <circle cx="-47" cy="-15" r="10" fill="white" opacity="0.6"/>
-                    
-                    <!-- Centro amarillo con forma de estrella/cruz -->
-                    <circle cx="0" cy="0" r="20" fill="#FFD700"/>
-                    <path d="M 0,-12 L 4,-4 L 12,0 L 4,4 L 0,12 L -4,4 L -12,0 L -4,-4 Z" fill="#FFC400"/>
-                </g>
+            <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
+              <!-- Fondo con gradiente sutil -->
+              <defs>
+                <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#fef5f7;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ffffff;stop-opacity:1" />
+                </linearGradient>
                 
-                <!-- Texto SAKURA -->
-                <text x="150" y="110" font-family="Arial, sans-serif" font-size="70" font-weight="900" fill="#2D3748">SAKURA</text>
+                <linearGradient id="petalGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ff9ec4;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                </linearGradient>
                 
-                <!-- Texto FINANZAS -->
-                <text x="150" y="160" font-family="Arial, sans-serif" font-size="40" font-weight="400" fill="#6B7280" letter-spacing="5">FINANZAS</text>
+                <linearGradient id="accentGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#e91e63;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              
+              <rect width="400" height="150" fill="url(#bgGradient)"/>
+              
+              <!-- Flor de Sakura estilizada (icono) - CENTRADA -->
+              <g transform="translate(70, 75)">
+                <!-- Círculo central -->
+                <circle cx="0" cy="0" r="8" fill="#ffd700" opacity="0.9"/>
                 
-                <!-- Línea rosa -->
-                <rect x="150" y="170" width="400" height="6" fill="#ec4899" rx="3"/>
+                <!-- Pétalos -->
+                <!-- Pétalo superior -->
+                <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(0)"/>
+                <!-- Pétalo derecha superior -->
+                <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(72)"/>
+                <!-- Pétalo derecha inferior -->
+                <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(144)"/>
+                <!-- Pétalo izquierda inferior -->
+                <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(216)"/>
+                <!-- Pétalo izquierda superior -->
+                <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(288)"/>
+                
+                <!-- Detalles en pétalos -->
+                <circle cx="0" cy="-20" r="2" fill="#ffffff" opacity="0.6"/>
+                <circle cx="14.3" cy="-13.8" r="2" fill="#ffffff" opacity="0.6"/>
+                <circle cx="14.3" cy="13.8" r="2" fill="#ffffff" opacity="0.6"/>
+                <circle cx="-14.3" cy="13.8" r="2" fill="#ffffff" opacity="0.6"/>
+                <circle cx="-14.3" cy="-13.8" r="2" fill="#ffffff" opacity="0.6"/>
+              </g>
+              
+              <!-- Texto "SAKURA" -->
+              <text x="115" y="65" font-family="'Arial Black', 'Arial Bold', sans-serif" font-size="38" font-weight="900" fill="#2c3e50" letter-spacing="1">
+                SAKURA
+              </text>
+              
+              <!-- Texto "FINANZAS" -->
+              <text x="115" y="95" font-family="'Arial', sans-serif" font-size="22" font-weight="300" fill="#546e7a" letter-spacing="4">
+                FINANZAS
+              </text>
+              
+              <!-- Línea decorativa debajo de FINANZAS -->
+              <line x1="115" y1="102" x2="260" y2="102" stroke="#ff6b9d" stroke-width="3"/>
             </svg>
         </div>
         
