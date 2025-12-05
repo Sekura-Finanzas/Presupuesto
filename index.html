@@ -70,6 +70,55 @@
             border-left: 5px solid #10b981;
         }
         
+        .pdf-button {
+            background: #ec4899;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto 30px;
+            max-width: 300px;
+        }
+        
+        .pdf-button:hover {
+            background: #db2777;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
         .instructions h3 {
             color: #10b981;
             margin-bottom: 15px;
@@ -463,6 +512,8 @@
     </style>
 </head>
 <body>
+    <div class="notification" id="notification"></div>
+    
     <div class="container" id="content">
         <div class="header">
             <h1><span class="emoji">💰</span> Mi Presupuesto Personal <span class="emoji">📊</span></h1>
@@ -520,6 +571,10 @@
                 <li><strong>Revisa el gráfico:</strong> Visualiza cómo se distribuye tu dinero y ajusta si es necesario</li>
             </ol>
         </div>
+        
+        <button class="pdf-button" onclick="generatePDF()">
+            <span>📄</span> Descargar PDF
+        </button>
         
         <div class="section">
             <div class="income-section">
@@ -720,6 +775,45 @@
         
         function updatePercentages() {
             updateTotals();
+        }
+        
+        function generatePDF() {
+            const instructions = document.querySelector('.instructions');
+            const pdfButton = document.querySelector('.pdf-button');
+            
+            // Ocultar instrucciones y botón antes de generar el PDF
+            instructions.style.display = 'none';
+            pdfButton.style.display = 'none';
+            
+            const opt = {
+                margin: 10,
+                filename: 'mi-presupuesto-sakura-finanzas.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(document.getElementById('content')).save().then(() => {
+                // Volver a mostrar instrucciones y botón
+                instructions.style.display = 'block';
+                pdfButton.style.display = 'flex';
+                showNotification('📄 PDF descargado correctamente');
+            }).catch((error) => {
+                console.error('Error al generar PDF:', error);
+                instructions.style.display = 'block';
+                pdfButton.style.display = 'flex';
+                alert('Hubo un error al generar el PDF. Por favor, intenta de nuevo.');
+            });
+        }
+        
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
         }
         
         addExpense('needs');
