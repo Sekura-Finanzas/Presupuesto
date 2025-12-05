@@ -86,44 +86,6 @@
             margin-bottom: 8px;
         }
         
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-        
-        .save-button, .pdf-button {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .save-button:hover, .pdf-button:hover {
-            background: #059669;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
-        }
-        
-        .pdf-button {
-            background: #ec4899;
-        }
-        
-        .pdf-button:hover {
-            background: #db2777;
-            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
-        }
-        
         .section {
             margin-bottom: 40px;
         }
@@ -441,31 +403,6 @@
             width: 100%;
         }
         
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
-        }
-        
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        
         @media print {
             body {
                 background: white;
@@ -473,9 +410,6 @@
             }
             .container {
                 box-shadow: none;
-            }
-            .action-buttons, .instructions {
-                display: none;
             }
         }
         
@@ -486,7 +420,7 @@
             .header h1 {
                 font-size: 1.8em;
             }
-            .logo-container img {
+            .logo-container svg {
                 max-width: 100%;
             }
             .rule-cards {
@@ -529,8 +463,6 @@
     </style>
 </head>
 <body>
-    <div class="notification" id="notification"></div>
-    
     <div class="container" id="content">
         <div class="header">
             <h1><span class="emoji">💰</span> Mi Presupuesto Personal <span class="emoji">📊</span></h1>
@@ -539,7 +471,6 @@
         
         <div class="logo-container">
             <svg viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg">
-              <!-- Fondo con gradiente sutil -->
               <defs>
                 <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" style="stop-color:#fef5f7;stop-opacity:1" />
@@ -550,33 +481,17 @@
                   <stop offset="0%" style="stop-color:#ff9ec4;stop-opacity:1" />
                   <stop offset="100%" style="stop-color:#ff6b9d;stop-opacity:1" />
                 </linearGradient>
-                
-                <linearGradient id="accentGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#e91e63;stop-opacity:1" />
-                </linearGradient>
               </defs>
               
               <rect width="400" height="150" fill="url(#bgGradient)"/>
               
-              <!-- Flor de Sakura estilizada (icono) - CENTRADA -->
               <g transform="translate(70, 75)">
-                <!-- Círculo central -->
                 <circle cx="0" cy="0" r="8" fill="#ffd700" opacity="0.9"/>
-                
-                <!-- Pétalos -->
-                <!-- Pétalo superior -->
                 <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(0)"/>
-                <!-- Pétalo derecha superior -->
                 <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(72)"/>
-                <!-- Pétalo derecha inferior -->
                 <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(144)"/>
-                <!-- Pétalo izquierda inferior -->
                 <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(216)"/>
-                <!-- Pétalo izquierda superior -->
                 <ellipse cx="0" cy="-20" rx="10" ry="15" fill="url(#petalGradient)" transform="rotate(288)"/>
-                
-                <!-- Detalles en pétalos -->
                 <circle cx="0" cy="-20" r="2" fill="#ffffff" opacity="0.6"/>
                 <circle cx="14.3" cy="-13.8" r="2" fill="#ffffff" opacity="0.6"/>
                 <circle cx="14.3" cy="13.8" r="2" fill="#ffffff" opacity="0.6"/>
@@ -584,17 +499,8 @@
                 <circle cx="-14.3" cy="-13.8" r="2" fill="#ffffff" opacity="0.6"/>
               </g>
               
-              <!-- Texto "SAKURA" -->
-              <text x="115" y="65" font-family="'Arial Black', 'Arial Bold', sans-serif" font-size="38" font-weight="900" fill="#2c3e50" letter-spacing="1">
-                SAKURA
-              </text>
-              
-              <!-- Texto "FINANZAS" -->
-              <text x="115" y="95" font-family="'Arial', sans-serif" font-size="22" font-weight="300" fill="#546e7a" letter-spacing="4">
-                FINANZAS
-              </text>
-              
-              <!-- Línea decorativa debajo de FINANZAS -->
+              <text x="115" y="65" font-family="'Arial Black', 'Arial Bold', sans-serif" font-size="38" font-weight="900" fill="#2c3e50" letter-spacing="1">SAKURA</text>
+              <text x="115" y="95" font-family="'Arial', sans-serif" font-size="22" font-weight="300" fill="#546e7a" letter-spacing="4">FINANZAS</text>
               <line x1="115" y1="102" x2="260" y2="102" stroke="#ff6b9d" stroke-width="3"/>
             </svg>
         </div>
@@ -609,21 +515,10 @@
             <h3>📝 Instrucciones de Uso</h3>
             <ol>
                 <li><strong>Empieza por tus ingresos:</strong> Introduce tu salario mensual neto (lo que realmente cobras)</li>
-                <li><strong>Ajusta los porcentajes:</strong> Puedes modificar la regla 50/30/20 según tus necesidades (ej: 60/25/15)</li>
+                <li><strong>Observa la regla 50/30/20:</strong> La plantilla calcula automáticamente cuánto deberías destinar a cada categoría. <strong>IMPORTANTE:</strong> Si ajustas los porcentajes manualmente, asegúrate de que la suma no supere el 100% (ejemplo: si pones 60% en Necesidades, ajusta las otras dos a 25% y 15%)</li>
                 <li><strong>Añade tus gastos:</strong> Usa los botones "+ Añadir gasto" para registrar todos tus gastos del mes</li>
-                <li><strong>Guarda tu progreso:</strong> Haz clic en "💾 Guardar Datos" para no perder tu información</li>
-                <li><strong>Descarga en PDF:</strong> Cuando termines el mes, descarga tu presupuesto en PDF</li>
-                <li><strong>Revisa el resumen:</strong> Visualiza cómo se distribuye tu dinero y ajusta si es necesario</li>
+                <li><strong>Revisa el gráfico:</strong> Visualiza cómo se distribuye tu dinero y ajusta si es necesario</li>
             </ol>
-        </div>
-        
-        <div class="action-buttons">
-            <button class="save-button" onclick="saveData()">
-                <span>💾</span> Guardar Datos
-            </button>
-            <button class="pdf-button" onclick="generatePDF()">
-                <span>📄</span> Descargar PDF
-            </button>
         </div>
         
         <div class="section">
@@ -750,6 +645,12 @@
     </div>
     
     <script>
+        const expenses = {
+            needs: [],
+            lifestyle: [],
+            future: []
+        };
+        
         function addExpense(category) {
             const container = document.getElementById(`${category}-expenses`);
             const expenseItem = document.createElement('div');
@@ -821,24 +722,13 @@
             updateTotals();
         }
         
-        function saveData() {
-            const data = {
-                income: document.getElementById('income').value,
-                needsPercent: document.getElementById('needs-percent').value,
-                lifestylePercent: document.getElementById('lifestyle-percent').value,
-                futurePercent: document.getElementById('future-percent').value,
-                needs: [],
-                lifestyle: [],
-                future: []
-            };
-            
-            document.querySelectorAll('#needs-expenses .expense-item').forEach(item => {
-                const concept = item.querySelector('input[type="text"]').value;
-                const amount = item.querySelector('input[type="number"]').value;
-                if (concept || amount) data.needs.push({concept, amount});
-            });
-            
-            document.querySelectorAll('#lifestyle-expenses .expense-item').forEach(item => {
-                const concept = item.querySelector('input[type="text"]').value;
-                const amount = item.querySelector('input[type="number"]').value;
-                if (concept || amount) data.lifestyle.push
+        addExpense('needs');
+        addExpense('lifestyle');
+        addExpense('future');
+        
+        document.getElementById('income').addEventListener('input', updateTotals);
+        
+        updateTotals();
+    </script>
+</body>
+</html>
