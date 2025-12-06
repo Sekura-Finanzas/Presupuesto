@@ -459,30 +459,57 @@
             }
             .container {
                 box-shadow: none;
-                padding: 20px;
+                padding: 10px !important;
             }
-            .header h1 {
-                font-size: 1.8em !important;
-            }
-            .logo-container {
-                margin: 10px 0 !important;
-            }
-            .logo-container svg {
-                max-width: 300px !important;
-            }
-            .section-title {
-                font-size: 1.3em !important;
+            .header {
                 margin-bottom: 10px !important;
             }
+            .header h1 {
+                font-size: 1.5em !important;
+                margin-bottom: 5px !important;
+            }
+            .header p {
+                display: none !important;
+            }
+            .logo-container {
+                margin: 5px 0 !important;
+                padding: 0 !important;
+            }
+            .logo-container svg {
+                max-width: 250px !important;
+            }
             .section {
-                margin-bottom: 20px !important;
+                margin-bottom: 15px !important;
+            }
+            .section-title {
+                font-size: 1.2em !important;
+                margin-bottom: 8px !important;
+            }
+            .income-section {
+                padding: 15px !important;
+                margin-bottom: 15px !important;
+            }
+            .rule-cards {
+                gap: 10px !important;
+            }
+            .rule-card {
+                padding: 15px !important;
+            }
+            .expenses-grid {
+                gap: 10px !important;
+            }
+            .expense-category {
+                padding: 15px !important;
             }
             .chart-container {
-                page-break-before: always;
-                margin-top: 20px !important;
+                page-break-before: always !important;
+                margin-top: 10px !important;
+                padding: 15px !important;
             }
             .summary {
-                page-break-before: avoid;
+                page-break-before: avoid !important;
+                padding: 15px !important;
+                margin-top: 15px !important;
             }
         }
         
@@ -805,41 +832,81 @@
             const instructions = document.querySelector('.instructions');
             const pdfButton = document.querySelector('.pdf-button');
             const youtubeLink = document.querySelector('a[href*="youtube"]').parentElement;
+            const header = document.querySelector('.header');
+            const logoContainer = document.querySelector('.logo-container');
             
             // Ocultar elementos que no queremos en el PDF
             instructions.style.display = 'none';
             pdfButton.style.display = 'none';
             youtubeLink.style.display = 'none';
+            header.querySelector('p').style.display = 'none'; // Ocultar subtítulo
             
-            // Reducir tamaños de fuente temporalmente para el PDF
+            // Guardar estilos originales
             const originalStyles = {
-                h1: document.querySelector('.header h1').style.fontSize,
-                logo: document.querySelector('.logo-container').style.marginBottom,
-                sectionTitle: Array.from(document.querySelectorAll('.section-title')).map(el => el.style.fontSize)
+                headerH1: header.querySelector('h1').style.cssText,
+                headerMargin: header.style.marginBottom,
+                logo: logoContainer.style.cssText,
+                sections: Array.from(document.querySelectorAll('.section')).map(el => el.style.cssText),
+                sectionTitles: Array.from(document.querySelectorAll('.section-title')).map(el => el.style.cssText),
+                incomeSection: document.querySelector('.income-section').style.cssText,
+                ruleCards: document.querySelector('.rule-cards').style.cssText,
+                expensesGrid: document.querySelector('.expenses-grid').style.cssText,
+                chartContainer: document.querySelector('.chart-container').style.cssText,
+                summary: document.querySelector('.summary').style.cssText
             };
             
-            document.querySelector('.header h1').style.fontSize = '1.8em';
-            document.querySelector('.logo-container').style.margin = '10px 0';
-            document.querySelector('.logo-container svg').style.maxWidth = '300px';
-            document.querySelectorAll('.section-title').forEach(el => {
-                el.style.fontSize = '1.3em';
-                el.style.marginBottom = '10px';
+            // Aplicar estilos compactos para PDF
+            header.querySelector('h1').style.fontSize = '1.5em';
+            header.querySelector('h1').style.marginBottom = '5px';
+            header.style.marginBottom = '15px';
+            
+            logoContainer.style.margin = '5px 0';
+            logoContainer.style.padding = '0';
+            logoContainer.querySelector('svg').style.maxWidth = '250px';
+            
+            document.querySelectorAll('.section').forEach(el => {
+                el.style.marginBottom = '15px';
             });
             
-            // Añadir salto de página antes de los gráficos
+            document.querySelectorAll('.section-title').forEach(el => {
+                el.style.fontSize = '1.2em';
+                el.style.marginBottom = '8px';
+            });
+            
+            const incomeSection = document.querySelector('.income-section');
+            incomeSection.style.padding = '15px';
+            incomeSection.style.marginBottom = '15px';
+            
+            const ruleCards = document.querySelector('.rule-cards');
+            ruleCards.style.gap = '10px';
+            ruleCards.querySelectorAll('.rule-card').forEach(card => {
+                card.style.padding = '15px';
+            });
+            
+            const expensesGrid = document.querySelector('.expenses-grid');
+            expensesGrid.style.gap = '10px';
+            expensesGrid.querySelectorAll('.expense-category').forEach(cat => {
+                cat.style.padding = '15px';
+            });
+            
             const chartContainer = document.querySelector('.chart-container');
-            const originalPageBreak = chartContainer.style.pageBreakBefore;
             chartContainer.style.pageBreakBefore = 'always';
-            chartContainer.style.marginTop = '20px';
+            chartContainer.style.marginTop = '10px';
+            chartContainer.style.padding = '15px';
+            
+            const summary = document.querySelector('.summary');
+            summary.style.padding = '15px';
+            summary.style.marginTop = '15px';
             
             const opt = {
-                margin: [10, 10, 10, 10],
+                margin: [8, 8, 8, 8],
                 filename: 'mi-presupuesto-sakura-finanzas.pdf',
-                image: { type: 'jpeg', quality: 0.95 },
+                image: { type: 'jpeg', quality: 0.92 },
                 html2canvas: { 
-                    scale: 2,
+                    scale: 1.8,
                     useCORS: true,
-                    letterRendering: true
+                    letterRendering: true,
+                    logging: false
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -847,34 +914,45 @@
                     orientation: 'portrait',
                     compress: true
                 },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+                pagebreak: { 
+                    mode: ['avoid-all', 'css', 'legacy'],
+                    before: '.chart-container'
+                }
             };
             
             html2pdf().set(opt).from(document.getElementById('content')).save().then(() => {
-                // Restaurar todo
+                // Restaurar todos los estilos originales
                 instructions.style.display = 'block';
                 pdfButton.style.display = 'flex';
                 youtubeLink.style.display = 'block';
-                document.querySelector('.header h1').style.fontSize = originalStyles.h1;
-                document.querySelector('.logo-container').style.margin = '';
-                document.querySelector('.logo-container svg').style.maxWidth = '500px';
-                document.querySelectorAll('.section-title').forEach((el, i) => {
-                    el.style.fontSize = '';
-                    el.style.marginBottom = '';
+                header.querySelector('p').style.display = 'block';
+                
+                header.querySelector('h1').style.cssText = originalStyles.headerH1;
+                header.style.marginBottom = originalStyles.headerMargin;
+                logoContainer.style.cssText = originalStyles.logo;
+                
+                document.querySelectorAll('.section').forEach((el, i) => {
+                    el.style.cssText = originalStyles.sections[i];
                 });
-                chartContainer.style.pageBreakBefore = originalPageBreak;
-                chartContainer.style.marginTop = '';
+                
+                document.querySelectorAll('.section-title').forEach((el, i) => {
+                    el.style.cssText = originalStyles.sectionTitles[i];
+                });
+                
+                document.querySelector('.income-section').style.cssText = originalStyles.incomeSection;
+                document.querySelector('.rule-cards').style.cssText = originalStyles.ruleCards;
+                document.querySelector('.expenses-grid').style.cssText = originalStyles.expensesGrid;
+                document.querySelector('.chart-container').style.cssText = originalStyles.chartContainer;
+                document.querySelector('.summary').style.cssText = originalStyles.summary;
                 
                 showNotification('📄 PDF descargado correctamente');
             }).catch((error) => {
                 console.error('Error al generar PDF:', error);
+                // Restaurar en caso de error
                 instructions.style.display = 'block';
                 pdfButton.style.display = 'flex';
                 youtubeLink.style.display = 'block';
-                document.querySelector('.header h1').style.fontSize = originalStyles.h1;
-                document.querySelector('.logo-container').style.margin = '';
-                document.querySelector('.logo-container svg').style.maxWidth = '500px';
-                chartContainer.style.pageBreakBefore = originalPageBreak;
+                header.querySelector('p').style.display = 'block';
                 alert('Hubo un error al generar el PDF. Por favor, intenta de nuevo.');
             });
         }
