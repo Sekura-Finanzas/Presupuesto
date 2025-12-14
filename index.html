@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Presupuesto Personal - Sakura Finanzas</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -70,53 +69,32 @@
             border-left: 5px solid #10b981;
         }
         
-        .pdf-button {
-            background: #ec4899;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin: 0 auto 30px;
-            max-width: 300px;
+        .instructions h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            font-size: 1.3em;
         }
         
-        .pdf-button:hover {
-            background: #db2777;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(236, 72, 153, 0.3);
+        .instructions ol {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #4a5568;
         }
         
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #10b981;
-            color: white;
-            padding: 15px 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1000;
-            animation: slideIn 0.3s ease;
+        .instructions li {
+            margin-bottom: 8px;
         }
         
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        .save-tip {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        
+        .save-tip strong {
+            color: #d97706;
         }
         
         .instructions h3 {
@@ -251,8 +229,8 @@
         }
         
         .rule-card.future input {
-            border-color: #6b7280;
-            color: #6b7280;
+            border-color: #38bdf8;
+            color: #38bdf8;
         }
         
         .rule-card .amount {
@@ -403,7 +381,7 @@
         }
         
         .bar-fill.future {
-            background: linear-gradient(90deg, #6b7280, #4b5563);
+            background: linear-gradient(90deg, #38bdf8, #0ea5e9);
         }
         
         .summary {
@@ -565,6 +543,8 @@
 <body>
     <div class="notification" id="notification"></div>
     
+    <div class="notification" id="notification"></div>
+    
     <div class="container" id="content">
         <div class="header">
             <h1><span class="emoji">💰</span> Mi Presupuesto Personal <span class="emoji">📊</span></h1>
@@ -621,11 +601,20 @@
                 <li><strong>Añade tus gastos:</strong> Usa los botones "+ Añadir gasto" para registrar todos tus gastos del mes</li>
                 <li><strong>Revisa el gráfico:</strong> Visualiza cómo se distribuye tu dinero y ajusta si es necesario</li>
             </ol>
+            
+            <div class="save-tip">
+                <strong>💾 ¿Cómo guardar tu presupuesto?</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>Opción 1 - Captura de pantalla:</strong> Haz una captura de pantalla de tu presupuesto completo</li>
+                    <li><strong>Opción 2 - Guardar como PDF:</strong>
+                        <ul style="margin-left: 20px; margin-top: 5px;">
+                            <li><strong>En ordenador:</strong> Presiona Ctrl+P (Windows) o Cmd+P (Mac) → Selecciona "Guardar como PDF"</li>
+                            <li><strong>En móvil:</strong> Abre el menú del navegador (⋮) → "Compartir" → "Imprimir" → "Guardar como PDF"</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
-        
-        <button class="pdf-button" onclick="generatePDF()">
-            <span>📄</span> Descargar PDF
-        </button>
         
         <div class="section">
             <div class="income-section">
@@ -826,145 +815,6 @@
         
         function updatePercentages() {
             updateTotals();
-        }
-        
-        function generatePDF() {
-            const instructions = document.querySelector('.instructions');
-            const pdfButton = document.querySelector('.pdf-button');
-            const youtubeLink = document.querySelector('a[href*="youtube"]').parentElement;
-            const header = document.querySelector('.header');
-            const logoContainer = document.querySelector('.logo-container');
-            
-            // Ocultar elementos que no queremos en el PDF
-            instructions.style.display = 'none';
-            pdfButton.style.display = 'none';
-            youtubeLink.style.display = 'none';
-            header.querySelector('p').style.display = 'none'; // Ocultar subtítulo
-            
-            // Guardar estilos originales
-            const originalStyles = {
-                headerH1: header.querySelector('h1').style.cssText,
-                headerMargin: header.style.marginBottom,
-                logo: logoContainer.style.cssText,
-                sections: Array.from(document.querySelectorAll('.section')).map(el => el.style.cssText),
-                sectionTitles: Array.from(document.querySelectorAll('.section-title')).map(el => el.style.cssText),
-                incomeSection: document.querySelector('.income-section').style.cssText,
-                ruleCards: document.querySelector('.rule-cards').style.cssText,
-                expensesGrid: document.querySelector('.expenses-grid').style.cssText,
-                chartContainer: document.querySelector('.chart-container').style.cssText,
-                summary: document.querySelector('.summary').style.cssText
-            };
-            
-            // Aplicar estilos compactos para PDF
-            header.querySelector('h1').style.fontSize = '1.5em';
-            header.querySelector('h1').style.marginBottom = '5px';
-            header.style.marginBottom = '15px';
-            
-            logoContainer.style.margin = '5px 0';
-            logoContainer.style.padding = '0';
-            logoContainer.querySelector('svg').style.maxWidth = '250px';
-            
-            document.querySelectorAll('.section').forEach(el => {
-                el.style.marginBottom = '15px';
-            });
-            
-            document.querySelectorAll('.section-title').forEach(el => {
-                el.style.fontSize = '1.2em';
-                el.style.marginBottom = '8px';
-            });
-            
-            const incomeSection = document.querySelector('.income-section');
-            incomeSection.style.padding = '15px';
-            incomeSection.style.marginBottom = '15px';
-            
-            const ruleCards = document.querySelector('.rule-cards');
-            ruleCards.style.gap = '10px';
-            ruleCards.querySelectorAll('.rule-card').forEach(card => {
-                card.style.padding = '15px';
-            });
-            
-            const expensesGrid = document.querySelector('.expenses-grid');
-            expensesGrid.style.gap = '10px';
-            expensesGrid.querySelectorAll('.expense-category').forEach(cat => {
-                cat.style.padding = '15px';
-            });
-            
-            const chartContainer = document.querySelector('.chart-container');
-            chartContainer.style.pageBreakBefore = 'always';
-            chartContainer.style.marginTop = '10px';
-            chartContainer.style.padding = '15px';
-            
-            const summary = document.querySelector('.summary');
-            summary.style.padding = '15px';
-            summary.style.marginTop = '15px';
-            
-            const opt = {
-                margin: [8, 8, 8, 8],
-                filename: 'mi-presupuesto-sakura-finanzas.pdf',
-                image: { type: 'jpeg', quality: 0.92 },
-                html2canvas: { 
-                    scale: 1.8,
-                    useCORS: true,
-                    letterRendering: true,
-                    logging: false
-                },
-                jsPDF: { 
-                    unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait',
-                    compress: true
-                },
-                pagebreak: { 
-                    mode: ['avoid-all', 'css', 'legacy'],
-                    before: '.chart-container'
-                }
-            };
-            
-            html2pdf().set(opt).from(document.getElementById('content')).save().then(() => {
-                // Restaurar todos los estilos originales
-                instructions.style.display = 'block';
-                pdfButton.style.display = 'flex';
-                youtubeLink.style.display = 'block';
-                header.querySelector('p').style.display = 'block';
-                
-                header.querySelector('h1').style.cssText = originalStyles.headerH1;
-                header.style.marginBottom = originalStyles.headerMargin;
-                logoContainer.style.cssText = originalStyles.logo;
-                
-                document.querySelectorAll('.section').forEach((el, i) => {
-                    el.style.cssText = originalStyles.sections[i];
-                });
-                
-                document.querySelectorAll('.section-title').forEach((el, i) => {
-                    el.style.cssText = originalStyles.sectionTitles[i];
-                });
-                
-                document.querySelector('.income-section').style.cssText = originalStyles.incomeSection;
-                document.querySelector('.rule-cards').style.cssText = originalStyles.ruleCards;
-                document.querySelector('.expenses-grid').style.cssText = originalStyles.expensesGrid;
-                document.querySelector('.chart-container').style.cssText = originalStyles.chartContainer;
-                document.querySelector('.summary').style.cssText = originalStyles.summary;
-                
-                showNotification('📄 PDF descargado correctamente');
-            }).catch((error) => {
-                console.error('Error al generar PDF:', error);
-                // Restaurar en caso de error
-                instructions.style.display = 'block';
-                pdfButton.style.display = 'flex';
-                youtubeLink.style.display = 'block';
-                header.querySelector('p').style.display = 'block';
-                alert('Hubo un error al generar el PDF. Por favor, intenta de nuevo.');
-            });
-        }
-        
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
         }
         
         addExpense('needs');
